@@ -10,8 +10,9 @@ pipeline {
   stages {
     stage('Maven Build') {
       steps {
-        dir('app')
+        dir('app') {
           sh 'mvn clean verify'
+        }
       }
     }
     stage('Veracode Pipeline Scan') {
