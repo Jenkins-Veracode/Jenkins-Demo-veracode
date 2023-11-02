@@ -18,6 +18,8 @@ pipeline {
     stage('Veracode Pipeline Scan') {
       steps {
         sh 'curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
+        echo "CI_BASELINE_PATH: ${CI_BASELINE_PATH}"
+        echo "CI_TIMEOUT: ${CI_TIMEOUT}"
         sh 'unzip pipeline-scan-LATEST.zip pipeline-scan.jar'
         sh 'java -jar pipeline-scan.jar \
           --veracode_api_id "${VERACODE_API_ID}" \
