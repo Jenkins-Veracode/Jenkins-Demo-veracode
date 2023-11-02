@@ -18,7 +18,7 @@ pipeline {
     stage('Veracode Pipeline Scan') {
       steps {
         script {
-          sh """
+          sh '''
             curl -O https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip
             unzip -o pipeline-scan-LATEST.zip pipeline-scan.jar
             java -jar pipeline-scan.jar \
@@ -28,10 +28,10 @@ pipeline {
               --fail_on_severity="Very High, High" \
               --fail_on_cwe="80" \
               --timeout $CI_TIMEOUT \
-              --project_name \${env.JOB_NAME} \
-              --project_url \${env.GIT_URL} \
-              --project_ref \${env.GIT_COMMIT}
-          """
+              --project_name ${env.JOB_NAME} \
+              --project_url ${env.GIT_URL} \
+              --project_ref ${env.GIT_COMMIT}
+          '''
         }
       }
     }
