@@ -30,7 +30,6 @@ pipeline {
         }
     stage('Veracode SCA - Agent Scan') { 
       steps {
-        def SRCCLR_API_TOKEN = 'SRCCLR_API_TOKEN', variable: 'SRCCLR_API_TOKEN'
         withCredentials([string(credentialsId: 'SRCCLR_API_TOKEN', variable: 'SRCCLR_API_TOKEN')]) {
             sh 'curl -sSL https://download.sourceclear.com/ci.sh | bash -s scan --update-advisor --uri-as-name || true'
         }
