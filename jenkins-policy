@@ -10,6 +10,10 @@ pipeline {
     path = "app/target/verademo.war"
   }
 
+  options {
+    withEnv(['JENKINS_OPTS=-Dorg.jenkinsci.plugins.durabletask.BourneShellScript.LAUNCH_DIAGNOSTICS=true'])
+  }
+
   stages {
     stage('Maven Build') {
       steps {
