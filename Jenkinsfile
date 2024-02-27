@@ -28,6 +28,14 @@ pipeline {
             sh 'java -jar veracode-wrapper.jar -vid ${VERACODE_API_ID} -vkey ${VERACODE_API_SECRET} -action uploadandscan -appname ${VeracodeProfile} -createprofile false  -version $(date +%H%M%s%d%m%y) -filepath ${filepath}'
             }
         }
+    stage('Veracode SCA - Agent Scan') { 
+      steps {
+        def SRCCLR_API_TOKEN = 'SRCCLR_API_TOKEN', variable: 'SRCCLR_API_TOKEN'
+        withCredentials([string(credentialsId: 'SRCCLR_API_TOKEN', variable: 'SRCCLR_API_TOKEN')]) {
+            sh 'curl -sSL https://download.sourceclear.com/ci.sh | bash -s scan --update-advisor --uri-as-name || true'
+        }
+      }
+    }
   }
 
   post {
