@@ -6,6 +6,8 @@ pipeline {
     VERACODE_API_SECRET = '568e7bd345890259c3e869c8da3d42597b815e6a780c5d72ce76eaf3045a1736d80eb0ced53eb61956b3f0410546b2ac6e681829eaa3c9c621fcd722cee60b14'
     CI_TIMEOUT = '20'
     JOB_NAME = 'Jenkins_pipeline'
+    Profile = 'VeraDemo'
+    path = "app/target/verademo.war"
   }
 
   stages {
@@ -28,7 +30,7 @@ pipeline {
     stage('Veracode upload and Scan') {
       steps {
         script {
-            sh 'java -jar veracode-wrapper.jar -vid ${VERACODE_API_ID} -vkey ${VERACODE_API_SECRET} -action uploadandscan -appname ${VeracodeProfile} -createprofile false  -version $(date +%H%M%s%d%m%y) -filepath ${path}'
+            sh 'java -jar veracode-wrapper.jar -vid ${VERACODE_API_ID} -vkey ${VERACODE_API_SECRET} -action uploadandscan -appname ${Profile} -createprofile false  -version $(date +%H%M%s%d%m%y) -filepath ${path}'
         }
       }
     }
