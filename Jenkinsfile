@@ -10,6 +10,8 @@ pipeline {
     VERACODE_API_SECRET = '568e7bd345890259c3e869c8da3d42597b815e6a780c5d72ce76eaf3045a1736d80eb0ced53eb61956b3f0410546b2ac6e681829eaa3c9c621fcd722cee60b14'
     CI_TIMEOUT = '20'
     JOB_NAME = 'Jenkins_pipeline'
+    filepath = 'app/target/verademo.war'
+    VeracodeProfile = 'Arun-jenkins-test'
   }
 
   stages {
@@ -20,15 +22,12 @@ pipeline {
         }
       }
     }
-    stage('Veracode Pipeline Scan') {
-      steps {
-        script {
-            sh 'curl -sSO https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
-            sh 'unzip -o pipeline-scan-LATEST.zip'
-            sh 'java -jar pipeline-scan.jar -vid ${VERACODE_API_ID} -vkey ${VERACODE_API_SECRET} -f "app/target/verademo.war" --issue_details true'
+    stage('Veracode Upload And Scan') {
+        steps {
+            sh 'curl -o veracode-wrapper.jar https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/23.4.11.2/vosp-api-wrappers-java-23.4.11.2.jar'
+            sh 'java -jar veracode-wrapper.jar -vid ${VERACODE_API_ID} -vkey ${VERACODE_API_SECRET} -action uploadandscan -appname ${VeracodeProfile} -createprofile false  -version $(date +%H%M%s%d%m%y) -filepath ${filepath}'
+            }
         }
-      }
-    }
   }
 
   post {
