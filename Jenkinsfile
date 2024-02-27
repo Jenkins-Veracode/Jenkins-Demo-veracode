@@ -11,7 +11,7 @@ pipeline {
     CI_TIMEOUT = '20'
     JOB_NAME = 'Jenkins_pipeline'
     filepath = 'app/target/verademo.war'
-    VeracodeProfile = 'Arun-jenkins-test'
+    VeracodeProfile = 'VeraDemo'
   }
 
   stages {
