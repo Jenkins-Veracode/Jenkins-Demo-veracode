@@ -18,27 +18,28 @@ pipeline {
         }
       }
     }
-    stage('Veracode Pipeline Scan') {
-      steps {
-        script {
-            sh 'curl -sSO https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
-            sh 'unzip -o pipeline-scan-LATEST.zip'
-            sh 'java -jar pipeline-scan.jar -vid ${VERACODE_API_ID} -vkey ${VERACODE_API_SECRET} -f "app/target/verademo.war" --issue_details true'
-        }
-      }
-    }
-    // stage('Veracode upload and Scan') {
+    // stage('Veracode Pipeline Scan') {
     //   steps {
     //     script {
-    //         sh 'java -jar veracode-wrapper.jar -vid ${VERACODE_API_ID} -vkey ${VERACODE_API_SECRET} -action uploadandscan -appname ${Profile} -createprofile false  -version $(date +%H%M%s%d%m%y) -filepath ${path}'
+    //         sh 'curl -sSO https://downloads.veracode.com/securityscan/pipeline-scan-LATEST.zip'
+    //         sh 'unzip -o pipeline-scan-LATEST.zip'
+    //         sh 'java -jar pipeline-scan.jar -vid ${VERACODE_API_ID} -vkey ${VERACODE_API_SECRET} -f "app/target/verademo.war" --issue_details true'
     //     }
     //   }
     // }
-  }
-
-  post {
-    always {
-      archiveArtifacts artifacts: 'results.json', fingerprint: true
+    stage('Veracode upload and Scan') {
+      steps {
+        script {
+            sh 'curl -o veracode-wrapper.jar https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/23.4.11.2/vosp-api-wrappers-java-23.4.11.2.jar'
+            sh 'java -jar veracode-wrapper.jar -vid ${VERACODE_API_ID} -vkey ${VERACODE_API_SECRET} -action uploadandscan -appname ${Profile} -createprofile false  -version $(date +%H%M%s%d%m%y) -filepath ${path}'
+        }
+      }
     }
   }
+
+  // post {
+  //   always {
+  //     archiveArtifacts artifacts: 'results.json', fingerprint: true
+  //   }
+  // }
 }
