@@ -25,6 +25,13 @@ pipeline {
         }
       }
     }
+    stage('Veracode upload and Scan') {
+      steps {
+        script {
+            sh 'java -jar veracode-wrapper.jar -vid ${VERACODE_API_ID} -vkey ${VERACODE_API_SECRET} -action uploadandscan -appname ${VeracodeProfile} -createprofile false  -version $(date +%H%M%s%d%m%y) -filepath ${path}'
+        }
+      }
+    }
   }
 
   post {
