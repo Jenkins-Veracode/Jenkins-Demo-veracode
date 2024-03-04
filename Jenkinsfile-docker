@@ -16,7 +16,7 @@ pipeline {
     stage('Docker') {
       steps {
         script {
-          docker.build("${tag}", '.')
+          sudo docker.build("${tag}", '.')
         }
       }
     }
