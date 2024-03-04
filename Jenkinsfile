@@ -36,6 +36,17 @@ pipeline {
         }
       }
     }
+
+    stage('Container Scan') {
+      steps {
+        sh '''
+          export VERACODE_API_KEY_ID=${VERACODE_API_ID}
+          export VERACODE_API_KEY_SECRET=${VERACODE_API_SECRET}
+          curl -fsS https://tools.veracode.com/veracode-cli/install | sh
+          ./veracode scan --type directory --source . --format table 2 >&1 | tee container-scan.json
+        '''
+      }
+    }
   }
 
   post {
