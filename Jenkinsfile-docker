@@ -25,7 +25,7 @@ pipeline {
         script {
           env.VERACODE_API_KEY_ID = VERACODE_API_ID
           env.VERACODE_API_KEY_SECRET = VERACODE_API_SECRET
-          sh 'curl -fsS https://tools.veracode.com/veracode-cli/install | sh'
+        //   sh 'curl -fsS https://tools.veracode.com/veracode-cli/install | sh'
           sh "./veracode scan --type image --source ${tag} --format table 2 >&1 | tee container-scan-docker"
         }
       }
